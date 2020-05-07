@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="#{app.title}"></title>
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+		<link rel="stylesheet" th:href="@{/css/styles.css}"/>
+	</head>
+	<body>
+		<h1 th:text="#{app.create-user}"></h1>
+		<form action="#" method="POST" th:action="@{/app/create-user}" th:object="${user}">
+			<table>
+				<tr>
+					<td th:text="#{user.name}"></td>
+					<td>
+						<input th:field="*{userName}" type="text"/>
+						<label th:class="'error'" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></label>
+						<!--<label th:class="'error'" th:if="${#fields.hasErrors('userName')}" th:text="#{error.user.name}"></label>-->
+					</td>
+				</tr>
+				<tr>
+					<td th:text="#{user.gender}"></td>
+					<td>
+						<input th:field="*{gender}" type="radio" value="Male"/><label th:text="#{user.gender.male}"></label>
+						<input th:field="*{gender}" type="radio" value="Female"/><label th:text="#{user.gender.female}"></label>
+						<label th:class="'error'" th:if="${#fields.hasErrors('gender')}" th:text="#{error.user.gender}"></label>
+					</td>
+				</tr>
+				<tr>
+					<td th:text="#{user.married} + '?'"></td>
+					<td>
+						<input th:field="*{married}" type="checkbox"/>
+					</td>
+				</tr>
+				<tr>
+					<td th:text="#{user.profile}"></td>
+					<td>
+						<select th:field="*{profile}">
+							<!--<option th:each="profile : ${allProfiles}" th:text="${profile}" th:value="${profile}"></option>-->
+							<option th:each="profile : ${allProfiles}" th:text="${profile.description}" th:value="${profile.description}"></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input th:value="#{user.form.submit}" type="submit"/>
+						<input th:value="#{user.form.reset}" type="reset"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+	</body>
+</html>

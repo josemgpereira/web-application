@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="#{app.title}"></title>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+    <body>
+        <h1 th:text="#{app.user-details}"></h1>
+        <table>
+            <tr>
+                <th th:text="#{user.id}"/></th>
+                <th th:text="#{user.name}"></th>
+                <th th:text="#{user.gender}"></th>
+                <th th:text="#{user.married} + '?'"></th>
+                <th th:text="#{user.profile}"></th>
+            </tr>
+            <tr th:each="user : ${allUsers}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.gender}"></td>
+                <td th:text="${user.married}"></td>
+                <td th:text="${user.profile}"></td>
+            </tr>
+        </table>
+        <a href="#" th:href="@{/app/create-user}" th:text="#{user.add-more-users}"></a>
+        <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    </body>
+</html>
