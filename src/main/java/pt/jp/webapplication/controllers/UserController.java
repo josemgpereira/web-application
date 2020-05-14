@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import pt.jp.webapplication.entities.User;
 import pt.jp.webapplication.services.UserService;
 
@@ -34,29 +34,24 @@ public class UserController {
     }
 
     @GetMapping("/create-user")
-    public ModelAndView createUserView() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("user-creation");
-        mav.addObject("user", new User());
-        //mav.addObject("allProfiles", getProfiles());
-        mav.addObject("allProfiles", userService.getAllProfiles());
-        return mav;
+    public String createUserView(Model model) {
+        model.addAttribute("user", new User());
+        //model.addAttribute("allProfiles", getProfiles());
+        model.addAttribute("allProfiles", userService.getAllProfiles());
+        return "user-creation";
     }
 
     @PostMapping("/create-user")
-    public ModelAndView createUser(@Valid User user, BindingResult result) {
-        ModelAndView mav = new ModelAndView();
+    public String createUser(@Valid User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             logger.info("Validation errors while submitting form.");
-            mav.setViewName("user-creation");
-            mav.addObject("user", user);
-            mav.addObject("allProfiles", userService.getAllProfiles());
-            return mav;
+            model.addAttribute("user", user);
+            model.addAttribute("allProfiles", userService.getAllProfiles());
+            return "user-creation";
         }
         userService.addUser(user);
-        mav.addObject("allUsers", userService.getAllUsers());
-        mav.setViewName("user-info");
+        model.addAttribute("allUsers", userService.getAllUsers());
         logger.info("Form submitted successfully.");
-        return mav;
+        return "user-info";
     }
 }
